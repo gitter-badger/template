@@ -1,0 +1,9 @@
+#!/bin/bash
+if [[ ! -x "$(command -v autopep8)" ]]; then
+    $(command -v pip) install -U autopep8
+fi
+
+for f in $(git s --porcelain | grep '[AM].*\.py$' | cut -f3 -d' '); do
+    $(command -v autopep8) -a -i "$(greadlink -f  "$f")"
+    git add "$(greadlink -f "$f")"
+done
